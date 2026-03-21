@@ -14,7 +14,7 @@
 /* ── Backend URL ─────────────────────────────────────────── */
 const BACKEND_URL = window.location.hostname === 'localhost'
   ? 'http://localhost:3000'
-  : 'https://your-backend.onrender.com'; // ← Update after deploying Render
+  : 'https://ludoback.onrender.com'; // ← Update after deploying Render
 
 const socket = io(BACKEND_URL, { transports: ['websocket', 'polling'] });
 

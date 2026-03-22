@@ -196,9 +196,12 @@ function initCanvas() {
 
   const body=document.querySelector('.game-body');
   const br=body.getBoundingClientRect();
-  const availW=br.width-210-18-28;
-  const availH=br.height-28;
-  const size=Math.floor(Math.min(availW,availH,560,Math.max(availW,260)));
+  // On mobile (≤820px) the panel stacks below the board, so full width is available
+  const isMobile=window.innerWidth<=820;
+  const panelW=isMobile?0:220;
+  const availW=br.width-panelW-28;
+  const availH=isMobile?Math.min(br.height*0.62,window.innerHeight*0.58):br.height-28;
+  const size=Math.floor(Math.min(availW,availH,620,Math.max(availW,280)));
 
   shell.style.width=size+'px'; shell.style.height=size+'px';
   canvas.width=CANVAS_SIZE; canvas.height=CANVAS_SIZE;
@@ -274,7 +277,7 @@ function drawSafe(){
 }
 
 function drawCenter(){
-  const cx=CANVAS_SIZE/2,cy=CANVAS_SIZE/2,arm=CELL*2.4;
+  const cx=CANVAS_SIZE/2,cy=CANVAS_SIZE/2,arm=CELL*1.88;
   [{color:'red',pts:[[cx,cy],[cx-arm,cy-arm],[cx+arm,cy-arm]]},
    {color:'blue',pts:[[cx,cy],[cx+arm,cy-arm],[cx+arm,cy+arm]]},
    {color:'green',pts:[[cx,cy],[cx+arm,cy+arm],[cx-arm,cy+arm]]},
@@ -284,7 +287,7 @@ function drawCenter(){
     ctx.fillStyle=CLR[t.color].fill+'bb'; ctx.fill();
   });
   ctx.save(); ctx.fillStyle='rgba(255,255,255,0.92)'; ctx.shadowColor='#fff'; ctx.shadowBlur=12;
-  starPath(cx,cy,CELL*0.5,CELL*0.2,6); ctx.fill(); ctx.restore();
+  starPath(cx,cy,CELL*0.42,CELL*0.17,6); ctx.fill(); ctx.restore();
 }
 
 function drawArrows(){
@@ -313,7 +316,7 @@ function starPath(cx,cy,or,ir,n){
 
 /* ── SVG Tokens ──────────────────────────────────────────── */
 const NS='http://www.w3.org/2000/svg';
-const TOKEN_R=CELL*0.3;
+const TOKEN_R=CELL*0.38;
 
 function initSVGTokens(gs){
   svgEl.innerHTML='';
